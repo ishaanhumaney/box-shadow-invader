@@ -1,0 +1,99 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #111;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.canvas {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    background-color: #1a1a2e;
+    border: 4px solid #0f3460;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Base setup for the 10x10px pixel unit */
+.invader {
+    width: 10px;
+    height: 10px;
+    background: transparent;
+    position: relative;
+    
+    /* Chain multiple animations together: 
+       1. alien-dance: changes pixel map layout discrete steps 
+       2. float: smooth position drifting up/down
+       3. rage-color: cycles palette over time
+    */
+    animation: 
+        alien-dance 1s infinite steps(2),
+        float 3s ease-in-out infinite alternate,
+        rage-color 4s linear infinite;
+}
+
+/* Optional damage state modifier you can toggle on the div */
+.invader.damaged {
+    animation: 
+        alien-dance 0.5s infinite steps(2),
+        flicker 0.2s infinite;
+}
+
+
+/* --- ANIMATION TIMELINES --- */
+
+/* 8-bit Sprite State Swapping */
+@keyframes alien-dance {
+    0%, 100% {
+        box-shadow:
+            /* Row 1 */ 30px 0 currentcolor, 70px 0 currentcolor,
+            /* Row 2 */ 40px 10px currentcolor, 60px 10px currentcolor,
+            /* Row 3 */ 30px 20px currentcolor, 40px 20px currentcolor, 50px 20px currentcolor, 60px 20px currentcolor, 70px 20px currentcolor,
+            /* Row 4 */ 10px 30px currentcolor, 20px 30px currentcolor, 40px 30px currentcolor, 50px 30px currentcolor, 60px 30px currentcolor, 80px 30px currentcolor, 90px 30px currentcolor,
+            /* Row 5 */ 0px 40px currentcolor, 10px 40px currentcolor, 20px 40px currentcolor, 30px 40px currentcolor, 40px 40px currentcolor, 50px 40px currentcolor, 60px 40px currentcolor, 70px 40px currentcolor, 80px 40px currentcolor, 90px 40px currentcolor, 100px 40px currentcolor,
+            /* Row 6 */ 0px 50px currentcolor, 20px 50px currentcolor, 30px 50px currentcolor, 40px 50px currentcolor, 50px 50px currentcolor, 60px 50px currentcolor, 70px 50px currentcolor, 80px 50px currentcolor, 100px 50px currentcolor,
+            /* Row 7 */ 0px 60px currentcolor, 20px 60px currentcolor, 80px 60px currentcolor, 100px 60px currentcolor,
+            /* Row 8 */ 30px 70px currentcolor, 40px 70px currentcolor, 60px 70px currentcolor, 70px 70px currentcolor;
+    }
+    50% {
+        box-shadow:
+            /* Row 1 */ 30px 0 currentcolor, 70px 0 currentcolor,
+            /* Row 2 */ 0px 10px currentcolor, 40px 10px currentcolor, 60px 10px currentcolor, 100px 10px currentcolor,
+            /* Row 3 */ 0px 20px currentcolor, 30px 20px currentcolor, 40px 20px currentcolor, 50px 20px currentcolor, 60px 20px currentcolor, 70px 20px currentcolor, 100px 20px currentcolor,
+            /* Row 4 */ 0px 30px currentcolor, 10px 30px currentcolor, 20px 30px currentcolor, 40px 30px currentcolor, 50px 30px currentcolor, 60px 30px currentcolor, 80px 30px currentcolor, 90px 30px currentcolor, 100px 30px currentcolor,
+            /* Row 5 */ 20px 40px currentcolor, 30px 40px currentcolor, 40px 40px currentcolor, 50px 40px currentcolor, 60px 40px currentcolor, 70px 40px currentcolor, 80px 40px currentcolor,
+            /* Row 6 */ 30px 50px currentcolor, 40px 50px currentcolor, 50px 50px currentcolor, 60px 50px currentcolor, 70px 50px currentcolor,
+            /* Row 7 */ 20px 60px currentcolor, 80px 60px currentcolor,
+            /* Row 8 */ 10px 70px currentcolor, 90px 70px currentcolor;
+    }
+}
+
+/* Smooth drifting motion */
+@keyframes float {
+    0% {
+        transform: translateY(-15px);
+    }
+    100% {
+        transform: translateY(15px);
+    }
+}
+
+/* Palette cycling utilizing 'currentcolor' inheritance in the box-shadows */
+@keyframes rage-color {
+    0%, 100% { color: #00ff66; }
+    33% { color: #ff0055; }
+    66% { color: #00d2ff; }
+}
+
+/* Retro damage hit flicker effect */
+@keyframes flicker {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+}
