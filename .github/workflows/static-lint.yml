@@ -27,4 +27,4 @@ jobs:
       - name: Lint CSS Stylesheets
         run: |
           echo '{"extends": "stylelint-config-standard"}' > .stylelintrc.json
-          stylelint "style.css"
+          stylelint "style.css" --fix
