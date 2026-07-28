@@ -1,0 +1,30 @@
+name: Static Code Integrity
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install HTML & CSS Linter Tools
+        run: npm install -g htmlhint stylelint stylelint-config-standard
+
+      - name: Lint HTML Markup
+        run: htmlhint index.html
+
+      - name: Lint CSS Stylesheets
+        run: |
+          echo '{"extends": "stylelint-config-standard"}' > .stylelintrc.json
+          stylelint "style.css"
